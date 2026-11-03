@@ -1,15 +1,15 @@
 /**
- * ZONATEC BARRANQUILLA - LÓGICA PRINCIPAL (main.js)
+ * TECHSTORE BARRANQUILLA - LÓGICA PRINCIPAL (main.js)
  * Cotizador interactivo a WhatsApp, catálogo rápido, menú móvil y acordeones.
  */
 
-const ZONATEC_CONFIG = {
-  name: "ZONATEC",
+const TECHSTORE_CONFIG = {
+  name: "TechStore",
   whatsappNumber: "573009876543", // Número oficial con código de Colombia (57)
-  whatsappDefaultMsg: "Hola ZONATEC, quiero consultar sobre un celular / servicio técnico",
+  whatsappDefaultMsg: "Hola TechStore, quiero consultar sobre un celular / servicio técnico",
   phoneDisplay: "+57 300 987 6543",
   phoneTel: "+573009876543",
-  email: "ventas@zonatecbaq.com",
+  email: "ventas@techstorebaq.com",
   schedule: "Lunes a Sábado: 9:00 AM - 7:00 PM",
   address: "Centro Comercial Portal del Prado / Calle 72, Barranquilla, Colombia"
 };
@@ -18,17 +18,18 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initWhatsAppLinks();
   initQuoteCalculator();
-  initCatalogInquiry();
-  initFaqAccordion();
-  initDeliveryOrderModal();
-  initSmoothScroll();
+   initCatalogInquiry();
+   initFaqAccordion();
+   initDeliveryOrderModal();
+   initSmoothScroll();
+   initLoadMoreCards();
 });
 
 /**
  * 1. Inicialización de Enlaces de WhatsApp
  */
 function initWhatsAppLinks() {
-  const waUrl = `https://wa.me/${ZONATEC_CONFIG.whatsappNumber}?text=${encodeURIComponent(ZONATEC_CONFIG.whatsappDefaultMsg)}`;
+  const waUrl = `https://wa.me/${TECHSTORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(TECHSTORE_CONFIG.whatsappDefaultMsg)}`;
   document.querySelectorAll('.js-whatsapp-btn').forEach(btn => {
     btn.href = waUrl;
     btn.target = '_blank';
@@ -198,13 +199,25 @@ function initSmoothScroll() {
 }
 
 /**
- * Sistema de Notificaciones Toast
+ * 8. Botón "Ver más" para catálogo de celulares
  */
+function initLoadMoreCards() {
+  const btn = document.getElementById('verMasCelulares');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.js-extra-card.hidden').forEach(el => el.classList.remove('hidden'));
+    btn.style.display = 'none';
+  });
+}
+
+/**
 function showToast(message, type = 'success') {
   let container = document.getElementById('toast-container');
   if (!container) {
     container = document.createElement('div');
     container.id = 'toast-container';
+    container.setAttribute('aria-live', 'polite');
+    container.setAttribute('role', 'status');
     container.className = 'fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none px-4 w-full max-w-sm';
     document.body.appendChild(container);
   }
